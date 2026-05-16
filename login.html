@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dorm Dash | Login & Sign Up</title>
+    <meta name="description" content="Sign in or create your Dorm Dash account. Get campus essentials delivered to your dorm in minutes.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FCFBF4; /* Premium Ivory */
+            --primary: #FFD166;
+            --primary-glow: rgba(255, 209, 102, 0.35);
+            --secondary: #06D6A0;
+            --accent-red: #ef476f;
+            --text-dark: #1F232D;
+            --text-muted: #6c757d;
+            --surface: #FFFFFF;
+            --border: rgba(0,0,0,0.06);
+        }
+
+        body.dark-mode {
+            --bg-color: #121212;
+            --surface: #1E1E1E;
+            --text-dark: #F8F9FA;
+            --text-muted: #ADB5BD;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: radial-gradient(var(--primary) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: -19px -19px;
+            overflow: hidden;
+        }
+
+        /* Floating background decorations */
+        .bg-shape {
+            position: fixed;
+            border-radius: 50%;
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-shape-1 {
+            width: 400px; height: 400px;
+            background: var(--primary);
+            top: -100px; right: -100px;
+            animation: float1 8s ease-in-out infinite;
+        }
+
+        .bg-shape-2 {
+            width: 300px; height: 300px;
+            background: var(--secondary);
+            bottom: -80px; left: -80px;
+            animation: float2 10s ease-in-out infinite;
+        }
+
+        .bg-shape-3 {
+            width: 200px; height: 200px;
+            background: var(--accent-red);
+            top: 50%; left: 60%;
+            animation: float3 12s ease-in-out infinite;
+        }
+
+        @keyframes float1 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-30px, 30px); } }
+        @keyframes float2 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, -25px); } }
+        @keyframes float3 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-15px, 20px); } }
+
+        /* Card */
+        .auth-card {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 50px 40px 40px;
+            width: 100%;
+            max-width: 460px;
+            box-shadow: 0px 24px 48px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            animation: cardIn 0.5s ease-out;
+        }
+
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--primary);
+        }
+
+        /* Brand */
+        .brand-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 44px;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+            text-align: center;
+        }
+
+        .brand-subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* Tab Switcher */
+        .tab-switcher {
+            display: flex;
+            width: 100%;
+            background: var(--bg-color);
+            border-radius: 14px;
+            padding: 5px;
+            margin-bottom: 28px;
+            position: relative;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tab-btn.active {
+            color: var(--text-dark);
+            background: var(--surface);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        /* Forms */
+        .form-container {
+            width: 100%;
+            position: relative;
+        }
+
+        .auth-form {
+            width: 100%;
+            transition: all 0.35s ease;
+        }
+
+        .auth-form.hidden {
+            display: none;
+        }
+
+        .form-group {
+            width: 100%;
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 7px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--bg-color);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 14px 16px;
+            color: var(--text-dark);
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.25s ease;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            background: var(--surface);
+            box-shadow: 0 0 0 4px var(--primary-glow);
+        }
+
+        .form-input::placeholder {
+            color: #adb5bd;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* Password strength indicator */
+        .password-strength {
+            height: 3px;
+            border-radius: 3px;
+            background: var(--bg-color);
+            margin-top: 8px;
+            overflow: hidden;
+            transition: opacity 0.2s;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            border-radius: 3px;
+            width: 0%;
+            transition: all 0.3s ease;
+        }
+
+        .strength-weak { width: 33%; background: var(--accent-red); }
+        .strength-medium { width: 66%; background: var(--primary); }
+        .strength-strong { width: 100%; background: var(--secondary); }
+
+        /* Buttons */
+        .btn-submit {
+            width: 100%;
+            background: var(--text-dark);
+            color: var(--surface);
+            border: none;
+            border-radius: 14px;
+            padding: 16px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 17px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 6px;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .btn-guest {
+            width: 100%;
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text-muted);
+            border-radius: 14px;
+            padding: 14px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-guest:hover {
+            border-color: var(--text-muted);
+            color: var(--text-dark);
+            background: var(--bg-color);
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            width: 100%;
+            margin: 16px 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .divider span {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Error/Success messages */
+        .msg-box {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: none;
+            animation: msgIn 0.3s ease;
+        }
+
+        @keyframes msgIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .msg-error {
+            background: rgba(239, 71, 111, 0.08);
+            color: var(--accent-red);
+            border: 1px solid rgba(239, 71, 111, 0.15);
+        }
+
+        .msg-success {
+            background: rgba(6, 214, 160, 0.08);
+            color: #059669;
+            border: 1px solid rgba(6, 214, 160, 0.15);
+        }
+
+        /* Footer */
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 520px) {
+            .auth-card {
+                margin: 16px;
+                padding: 40px 24px 30px;
+            }
+            .brand-title { font-size: 36px; }
+            .form-row { flex-direction: column; gap: 0; }
+        }
+    /* Theme Toggle Button */
+    .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 100;
+        background: var(--surface);
+        border: 2px solid var(--border);
+        color: var(--text-dark);
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 20px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .theme-toggle:hover {
+        transform: scale(1.1);
+        border-color: var(--primary);
+    }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
+
+
+    <!-- Decorative Background -->
+    <div class="bg-shape bg-shape-1"></div>
+    <div class="bg-shape bg-shape-2"></div>
+    <div class="bg-shape bg-shape-3"></div>
+
+    <div class="auth-card">
+        <h1 class="brand-title">DORM DASH</h1>
+        <p class="brand-subtitle">Campus essentials delivered in minutes.</p>
+
+        <!-- Tab Switcher -->
+        <div class="tab-switcher" id="tabSwitcher">
+            <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">Sign In</button>
+            <button class="tab-btn" id="tabSignup" onclick="switchTab('signup')">Create Account</button>
+        </div>
+
+        <!-- Message Box -->
+        <div class="msg-box" id="msgBox"></div>
+
+        <div class="form-container">
+
+            <!-- LOGIN FORM -->
+            <form class="auth-form" id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label" for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" class="form-input" placeholder="e.g. abhirami" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-input" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn-submit" id="loginBtn">Sign In</button>
+
+                <div class="divider"><span>or</span></div>
+
+                <button type="button" class="btn-guest" onclick="loginAsGuest(this)">Continue as Guest</button>
+            </form>
+
+            <!-- SIGN UP FORM -->
+            <form class="auth-form hidden" id="signupForm" onsubmit="handleSignup(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="signupFullName">Full Name</label>
+                        <input type="text" id="signupFullName" class="form-input" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="signupDorm">Dorm / Address</label>
+                        <input type="text" id="signupDorm" class="form-input" placeholder="e.g. Block C, Room 204" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="signupEmail">Email Address</label>
+                    <input type="email" id="signupEmail" class="form-input" placeholder="e.g. name@college.edu" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="signupPhone">Phone Number</label>
+                    <input type="tel" id="signupPhone" class="form-input" placeholder="e.g. 9876543210" required minlength="10" maxlength="15">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="signupUsername">Choose Username</label>
+                    <input type="text" id="signupUsername" class="form-input" placeholder="Pick a unique username" required minlength="3" maxlength="30">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="signupPassword">Create Password</label>
+                    <input type="password" id="signupPassword" class="form-input" placeholder="Min 4 characters" required minlength="4" oninput="checkPasswordStrength(this.value)">
+                    <div class="password-strength" id="passwordStrength">
+                        <div class="password-strength-bar" id="passwordStrengthBar"></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="signupBtn">Create Account</button>
+            </form>
+
+        </div>
+
+        <p class="auth-footer">Built for campus life</p>
+    </div>
+
+    <script>
+        // Tab Switching
+        function switchTab(tab) {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            const tabLogin = document.getElementById('tabLogin');
+            const tabSignup = document.getElementById('tabSignup');
+            const msgBox = document.getElementById('msgBox');
+
+            msgBox.style.display = 'none';
+
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                tabLogin.classList.add('active');
+                tabSignup.classList.remove('active');
+            } else {
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+                tabSignup.classList.add('active');
+                tabLogin.classList.remove('active');
+            }
+        }
+
+        // Show message
+        function showMsg(text, type = 'error') {
+            const msgBox = document.getElementById('msgBox');
+            msgBox.textContent = text;
+            msgBox.className = `msg-box msg-${type}`;
+            msgBox.style.display = 'block';
+        }
+
+        // Password strength
+        function checkPasswordStrength(password) {
+            const bar = document.getElementById('passwordStrengthBar');
+            bar.className = 'password-strength-bar';
+
+            if (password.length === 0) {
+                bar.className = 'password-strength-bar';
+                return;
+            }
+
+            let score = 0;
+            if (password.length >= 4) score++;
+            if (password.length >= 8) score++;
+            if (/[A-Z]/.test(password) && /[0-9]/.test(password)) score++;
+
+            if (score <= 1) bar.classList.add('strength-weak');
+            else if (score === 2) bar.classList.add('strength-medium');
+            else bar.classList.add('strength-strong');
+        }
+
+        // LOGIN
+        async function handleLogin(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const btn = document.getElementById('loginBtn');
+
+            if (!username || !password) return;
+
+            btn.textContent = "Connecting...";
+            btn.classList.add('loading');
+
+            try {
+                const response = await fetch('http://localhost:3000/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    localStorage.setItem("dormDashUser", JSON.stringify(data.user));
+                    window.location.href = "shopping_cart_fe.html";
+                } else {
+                    showMsg(data.message || "Invalid credentials. Please try again.", 'error');
+                }
+            } catch (err) {
+                console.error("Backend offline. Simulating login...", err);
+                const mockSession = {
+                    USER_ID: 1,
+                    USERNAME: username,
+                    FULL_NAME: "Mocked User",
+                    ADDRESS: "Fallback Mode"
+                };
+                localStorage.setItem("dormDashUser", JSON.stringify(mockSession));
+                window.location.href = "shopping_cart_fe.html";
+            } finally {
+                btn.textContent = "Sign In →";
+                btn.classList.remove('loading');
+            }
+        }
+
+        // SIGN UP
+        async function handleSignup(e) {
+            e.preventDefault();
+
+            const fullName = document.getElementById('signupFullName').value.trim();
+            const address = document.getElementById('signupDorm').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const phone = document.getElementById('signupPhone').value.trim();
+            const username = document.getElementById('signupUsername').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const btn = document.getElementById('signupBtn');
+
+            if (!fullName || !address || !email || !phone || !username || !password) return;
+
+            if (password.length < 4) {
+                showMsg("Password must be at least 4 characters.", 'error');
+                return;
+            }
+
+            btn.textContent = "Creating Account...";
+            btn.classList.add('loading');
+
+            try {
+                const response = await fetch('http://localhost:3000/api/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        username, 
+                        password, 
+                        full_name: fullName, 
+                        address,
+                        email,
+                        phone
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMsg("Account created! Signing you in...", 'success');
+                    // Auto-login after successful signup
+                    localStorage.setItem("dormDashUser", JSON.stringify(data.user));
+                    setTimeout(() => {
+                        window.location.href = "shopping_cart_fe.html";
+                    }, 1000);
+                } else {
+                    showMsg(data.message || "Could not create account.", 'error');
+                }
+            } catch (err) {
+                console.error("Backend offline. Creating mock account...", err);
+                const mockSession = {
+                    USER_ID: Date.now(),
+                    USERNAME: username,
+                    FULL_NAME: fullName,
+                    ADDRESS: address,
+                    EMAIL: email,
+                    PHONE: phone
+                };
+                localStorage.setItem("dormDashUser", JSON.stringify(mockSession));
+                showMsg("Account created (offline mode)! Redirecting...", 'success');
+                setTimeout(() => {
+                    window.location.href = "shopping_cart_fe.html";
+                }, 1000);
+            } finally {
+                btn.textContent = "Create Account";
+                btn.classList.remove('loading');
+            }
+        }
+
+        // Theme Management
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('dormDashTheme', isDark ? 'dark' : 'light');
+            document.getElementById('themeBtn').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        // Apply theme on load
+        if (localStorage.getItem('dormDashTheme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.getElementById('themeBtn').textContent = '☀️';
+        }
+
+        // GUEST LOGIN
+        async function loginAsGuest(btn) {
+            btn.textContent = "Connecting...";
+            btn.style.opacity = "0.7";
+
+            try {
+                const response = await fetch('http://localhost:3000/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: 'guest', password: 'guestpass' })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    localStorage.setItem("dormDashUser", JSON.stringify(data.user));
+                    window.location.href = "shopping_cart_fe.html";
+                } else {
+                    // If DB guest fails, try local fallback for development
+                    console.warn("Guest account not in DB. Using fallback.");
+                    const mockSession = { USER_ID: 999, USERNAME: "guest", FULL_NAME: "Campus Guest", ADDRESS: "Guest Dorm" };
+                    localStorage.setItem("dormDashUser", JSON.stringify(mockSession));
+                    window.location.href = "shopping_cart_fe.html";
+                }
+            } catch (err) {
+                console.error("Backend offline. Simulating guest login...", err);
+                const mockSession = { USER_ID: 999, USERNAME: "guest", FULL_NAME: "Campus Guest", ADDRESS: "Guest Dorm" };
+                localStorage.setItem("dormDashUser", JSON.stringify(mockSession));
+                window.location.href = "shopping_cart_fe.html";
+            } finally {
+                btn.textContent = "Continue as Guest";
+                btn.style.opacity = "1";
+            }
+        }
+    </script>
+</body>
+</html>
