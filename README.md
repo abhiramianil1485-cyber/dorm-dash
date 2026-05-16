@@ -1,10 +1,10 @@
-# 🛒 Dorm Dash
+# Dorm Dash
 
 > A campus e-commerce web app for dorm essentials — groceries, snacks, and pharmaceuticals, built with Node.js, Express, and Oracle Database.
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 - [About](#about)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
@@ -23,18 +23,18 @@
 
 ---
 
-## ✨ Features
+## Features
 
-- 🔐 **User Authentication** — Sign up and log in with username/password
-- 🛍️ **Product Catalog** — Browse items by category (Groceries, Pharmaceuticals, etc.)
-- 🛒 **Shopping Cart** — Add items, update quantities, with live stock validation
-- 💳 **Checkout & Payment Simulation** — Orders are placed and payment is randomly simulated (80% success rate)
-- 📦 **Automatic Order Tracking** — A background task advances order status every minute: `CONFIRMED → SHIPPED → DELIVERED`
-- 🔒 **Stock Guard** — PL/SQL procedures prevent overselling; users can't add more than available stock
+- **User Authentication** — Sign up and log in with username/password
+- **Product Catalog** — Browse items by category (Groceries, Pharmaceuticals, etc.)
+- **Shopping Cart** — Add items, update quantities, with live stock validation
+- **Checkout & Payment Simulation** — Orders are placed and payment is randomly simulated (80% success rate)
+- **Automatic Order Tracking** — A background task advances order status every minute: `CONFIRMED → SHIPPED → DELIVERED`
+- **Stock Guard** — PL/SQL procedures prevent overselling; users can't add more than available stock
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |---|---|
@@ -47,7 +47,7 @@
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 shopping_cart_project/
@@ -73,7 +73,7 @@ shopping_cart_project/
 
 ---
 
-## 🗄️ Database Schema
+## Database Schema
 
 ```
 USERS ──────────────┐
@@ -91,7 +91,7 @@ PRODUCTS ───────────────────────�
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -179,9 +179,14 @@ The app will be live at **[http://localhost:3000](http://localhost:3000)** and r
 
 ---
 
-## 👩‍💻 Author
+## Author
 
 **Abhirami Anil**
-
+: ¨·.·¨ :
+ ` ·. 🦋
+                  ╱|、                   
+                (˚ˎ 。7  
+                 |、˜〵          
+                じしˍ,)ノ           
 ---
 
