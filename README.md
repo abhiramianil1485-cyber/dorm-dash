@@ -181,12 +181,10 @@ The app will be live at **[http://localhost:3000](http://localhost:3000)** and r
 
 ## Author
 
-**Abhirami Anil**
-         : ¨·.·¨ :
-          ` ·. 🦋
-                  ╱|、                   
-                (˚ˎ 。7  
-                 |、˜〵          
-                じしˍ,)ノ           
----
+**Abhirami Anil** : ¨·.·¨ : `·. 🦋 /|、
+
+(˚₀ 7
+|、˜\
+じじ_,)ノ
+
 
