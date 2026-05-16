@@ -182,9 +182,6 @@ The app will be live at **[http://localhost:3000](http://localhost:3000)** and r
 ## 👩‍💻 Author
 
 **Abhirami Anil**
-Roll No: 240905105
-Database Systems Lab Mini Project
 
 ---
 
-> *Built with ☕ and a lot of Shin Ramyun*
